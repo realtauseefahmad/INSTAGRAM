@@ -3,13 +3,12 @@ const mongoose = require("mongoose")
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
-        unique: [   true, "Username already exists"],
+        unique: [true, "Username already exists"],
         required: true,
-
     },
     email: {
         type: String,
-        unique: [   true, "Email already exists"],
+        unique: [true, "Email already exists"],
         required: true,
     },
     password: {
@@ -20,7 +19,8 @@ const userSchema = new mongoose.Schema({
     profileImage: {
         type: String,
         default: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-    }
+    },
+    
 })
 
 const userModel = mongoose.model("User", userSchema)
