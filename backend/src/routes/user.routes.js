@@ -1,6 +1,7 @@
 const express = require("express")
 const userController = require("../controllers/user.controller")
 const identifyUser = require("../middlewares/auth.middleware")
+const checkPendingFollowRequest = require("../middlewares/followrequest.middleware")
 
 const userRouter = express.Router();
 
@@ -14,5 +15,9 @@ userRouter.post("/follow/:username",identifyUser, userController.followUserContr
 
 userRouter.post("/unfollow/:username", identifyUser, userController.unfollowUserController)
 
+
+userRouter.post("/follow/:username/accept", identifyUser, checkPendingFollowRequest, userController.acceptFollowRequestController)
+
+userRouter.post("/follow/:username/reject", identifyUser, checkPendingFollowRequest, userController.rejectFollowRequestController)
 
 module.exports = userRouter

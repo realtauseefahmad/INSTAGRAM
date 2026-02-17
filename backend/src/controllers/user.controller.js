@@ -39,9 +39,13 @@ async function followUserController(req, res) {
         })
     }
 
+
+    const status = isFolloweeExists.isPrivate ? "pending" : "accepted"
+
     const followRecord = await followModel.create({
         follower: followerUsername,
-        followee: followeeUsername
+        followee: followeeUsername,
+        status
     })
 
     res.status(201).json({
@@ -75,7 +79,29 @@ async function unfollowUserController(req, res) {
     })
 }
 
+async function acceptFollowRequestController(req, res) {
+    req.followRequest.status = "accepted"
+    await req.followRequest.save()
+
+    res.status(200).json({
+        message: "follow request accepted",
+        follow: req.followRequest
+    })
+}
+
+async function rejectFollowRequestController(req, res) {
+    req.followRequest.status = "rejected"
+    await req.followRequest.save()
+
+    res.status(200).json({
+        message: "follow request rejected"
+    })
+}
+
 module.exports = {
     followUserController,
-    unfollowUserController
+    unfollowUserController,
+    acceptFollowRequestController,
+    rejectFollowRequestController
+    
 }
