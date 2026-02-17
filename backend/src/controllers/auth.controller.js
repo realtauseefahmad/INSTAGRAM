@@ -33,7 +33,8 @@ async function registerController(req, res) {
 
     //? Generate a JWT token for the user
     const token = jwt.sign({
-        id: user._id
+        id: user._id,
+        username : user.username
     }, process.env.JWT_SECRET, { expiresIn: "2d" })
 
     //? Set the token in an HTTP-only cookie
@@ -82,7 +83,7 @@ async function loginController(req, res) {
 
     //? If the password is valid, generate a JWT token for the user
     const token = jwt.sign(
-        { id: user._id },
+        { id: user._id , username : user.username},
         process.env.JWT_SECRET,
         { expiresIn: "2d" }
     )
