@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 
 async function registerController(req, res) {
-    const { username, email, password, bio, profileImage } = req.body;
+    const { username, email, password, bio, profileImage ,isPrivate } = req.body;
     // Here you would typically add logic to save the user to the database
 
     //! check if user with the same Email & Username already exists
@@ -28,7 +28,8 @@ async function registerController(req, res) {
         email,
         bio,
         profileImage,
-        password: hash
+        password: hash,
+        isPrivate: isPrivate ?? false
     })
 
     //? Generate a JWT token for the user
