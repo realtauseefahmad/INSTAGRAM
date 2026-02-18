@@ -93,6 +93,8 @@ async function rejectFollowRequestController(req, res) {
     req.followRequest.status = "rejected"
     await req.followRequest.save()
 
+    await followModel.findByIdAndDelete(req.followRequest)
+
     res.status(200).json({
         message: "follow request rejected"
     })
