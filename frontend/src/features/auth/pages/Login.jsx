@@ -25,6 +25,10 @@ const Login = () => {
   return (
     <>
     <main>
+        <div className="header-left">
+            <h1>See everyday moments from your <br /> <span>close friends.</span></h1>
+            <img src="https://static.cdninstagram.com/rsrc.php/v4/yt/r/pAv7hjq-51n.png" alt="" />
+        </div>
         <div className="form-container">
             <h1>Login</h1>
             <form onSubmit={handleSubmit} >
