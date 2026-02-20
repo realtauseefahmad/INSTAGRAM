@@ -104,7 +104,23 @@ async function loginController(req, res) {
     })
 }
 
+async function getMeController(req, res) {
+    //? The identifyUser middleware will have already verified the token and set req.user to the authenticated user's information
+    const userId = req.user.id
+    const user = await userModel.findById(userId)
+
+    res.status(200).json({
+        user: {
+            username: user.username,
+            email: user.email,
+            bio: user.bio,
+            profileImage: user.profileImage
+        }
+    })
+}
+
 module.exports = {
     registerController,
-    loginController
+    loginController,
+    getMeController
 }
