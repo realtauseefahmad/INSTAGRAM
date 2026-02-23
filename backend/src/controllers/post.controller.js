@@ -2,6 +2,7 @@ const postModel = require("../models/post.model")
 const ImageKit = require("@imagekit/nodejs")
 const { toFile } = require("@imagekit/nodejs")
 const likeModel = require("../models/likes.model")
+const { post } = require("../app")
 
 
 const imagekit = new ImageKit({
@@ -96,9 +97,39 @@ async function likePostController(req, res) {
     })
 }
 
+async function getFeedController(req, res) {
+
+    const user = req.user
+
+    const posts = await Promise.all((await postModel.find().populate("user").lean())
+        .map(async (post) => {
+
+            /**
+             * typeof post => object
+             */
+
+            const isLiked = await likeModel.findOne({
+                user: user.username,
+                post: post._id
+            })
+
+            post.isLiked = Boolean(isLiked)
+
+            return post
+        }))
+
+
+
+    res.status(200).json({
+        message: "posts fetched successfully.",
+        posts
+    })
+}
+
 module.exports = {
     createPostController,
     getPostController,
     getPostDetailsConroller,
-    likePostController
+    likePostController,
+    getFeedController
 }

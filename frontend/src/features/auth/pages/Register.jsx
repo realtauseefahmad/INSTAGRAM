@@ -1,20 +1,36 @@
 import React from 'react'
 import { useState } from 'react'
 import { Link } from 'react-router'
+import {useAuth } from "../hooks/useAuth"
+import { useNavigate } from 'react-router'
 import axios from 'axios'
 
 
 const Register = () => {
+    const { loading , handleRgister} = useAuth()
 
     const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    async function handleSubmit(e) {
-        e.preventDefault()
 
+    const navigate = useNavigate()
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
         
+        await handleRgister(username, email, password)
+
+        navigate('/')
+
     }
+
+    if (loading) {
+        return (<main>
+            <h1>Loading.....</h1>
+        </main>)
+    }
+
 
     return (
         <>
